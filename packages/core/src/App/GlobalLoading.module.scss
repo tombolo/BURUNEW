@@ -1,0 +1,477 @@
+// GlobalLoading.module.scss
+
+.globalLoading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--dark) 0%, #2D3748 100%);
+
+    // Background images with new overlay
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('./Logo/bgpotrait.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.15;
+        z-index: 0;
+    }
+
+    @media (orientation: landscape) {
+        &::before {
+            background-image: url('./Logo/bglandscape.jpg');
+        }
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+// New orb background elements
+.orbBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.orb1, .orb2, .orb3 {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.4;
+}
+
+.orb1 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+    top: 10%;
+    left: 10%;
+}
+
+.orb2 {
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    bottom: 20%;
+    right: 15%;
+}
+
+.orb3 {
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, var(--teal) 0%, transparent 70%);
+    top: 60%;
+    left: 70%;
+}
+
+// New geometric grid pattern
+.geometricGrid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.03;
+
+    .gridLine {
+        position: absolute;
+        background: linear-gradient(90deg, transparent, var(--light), transparent);
+        
+        &:nth-child(1) {
+            top: 33.33%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+        }
+        
+        &:nth-child(2) {
+            top: 66.66%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+        }
+        
+        &:nth-child(3) {
+            top: 0;
+            left: 50%;
+            width: 1px;
+            height: 100%;
+            transform: translateX(-50%);
+        }
+    }
+}
+
+// New loading container design
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    padding: 3rem 2.5rem;
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    
+    // Modern glass morphism
+    background: var(--surface);
+    backdrop-filter: blur(25px) saturate(200%);
+    border-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 
+        0 32px 64px rgba(0, 0, 0, 0.3),
+        0 0 120px rgba(102, 126, 234, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+// New logo design with halo and ring
+.logoWrapper {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    
+    .logoHalo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 140px;
+        height: 140px;
+        background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+        opacity: 0.2;
+        filter: blur(15px);
+        animation: haloPulse 3s infinite ease-in-out;
+    }
+    
+    .logoRing {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 130px;
+        height: 130px;
+        border: 2px solid var(--primary);
+        border-radius: 50%;
+        opacity: 0.3;
+        animation: ringRotate 8s infinite linear;
+    }
+    
+    .logo {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        filter: 
+            drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4))
+            drop-shadow(0 0 30px rgba(102, 126, 234, 0.3));
+        user-select: none;
+        position: relative;
+        z-index: 3;
+    }
+}
+
+// New content stack layout
+.contentStack {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+}
+
+.contentItem {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    
+    .itemIcon {
+        font-size: 1.5rem;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        flex-shrink: 0;
+    }
+    
+    .itemContent {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+        flex: 1;
+    }
+    
+    .itemLabel {
+        font-size: 0.8rem;
+        color: var(--light);
+        opacity: 0.7;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+    
+    .itemValue {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--light);
+        letter-spacing: -0.01em;
+    }
+    
+    .itemHighlight {
+        font-size: 1.4rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.01em;
+    }
+}
+
+// New circular progress design
+.circularProgress {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .progressSvg {
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+    }
+    
+    .progressBg {
+        fill: none;
+        stroke: rgba(255, 255, 255, 0.1);
+        stroke-width: 3;
+    }
+    
+    .progressFill {
+        fill: none;
+        stroke: url(#progressGradient);
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-dasharray: 283;
+        stroke-dashoffset: 283;
+    }
+    
+    .progressText {
+        position: absolute;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--light);
+        font-feature-settings: 'tnum';
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+// Add gradient definition for SVG
+.circularProgress svg {
+    defs {
+        linearGradient#progressGradient {
+            stop:first-child {
+                stop-color: var(--primary);
+            }
+            stop:last-child {
+                stop-color: var(--accent);
+            }
+        }
+    }
+}
+
+// New loading dots animation
+.loadingDots {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--light);
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    
+    span {
+        &:first-child {
+            margin-right: 0.25rem;
+        }
+    }
+}
+
+// New Animations
+@keyframes haloPulse {
+    0%, 100% {
+        opacity: 0.15;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.25;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+@keyframes ringRotate {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+    .loadingContainer {
+        padding: 2rem 1.5rem;
+        max-width: 90%;
+        margin: 1rem;
+        gap: 2.5rem;
+    }
+    
+    .logoWrapper {
+        width: 100px;
+        height: 100px;
+        
+        .logo {
+            width: 70px;
+            height: 70px;
+        }
+        
+        .logoHalo {
+            width: 120px;
+            height: 120px;
+        }
+        
+        .logoRing {
+            width: 110px;
+            height: 110px;
+        }
+    }
+    
+    .contentStack {
+        gap: 1.5rem;
+    }
+    
+    .contentItem {
+        padding: 0.875rem 1.25rem;
+        
+        .itemIcon {
+            width: 45px;
+            height: 45px;
+            font-size: 1.25rem;
+        }
+        
+        .itemValue,
+        .itemHighlight {
+            font-size: 1.2rem;
+        }
+    }
+    
+    .circularProgress {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .orb1 {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .orb2 {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .orb3 {
+        width: 140px;
+        height: 140px;
+    }
+}
+
+@media (max-width: 480px) {
+    .loadingContainer {
+        padding: 1.5rem;
+        gap: 2rem;
+    }
+    
+    .logoWrapper {
+        width: 80px;
+        height: 80px;
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+        }
+        
+        .logoHalo {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .logoRing {
+            width: 90px;
+            height: 90px;
+        }
+    }
+    
+    .contentItem {
+        .itemValue,
+        .itemHighlight {
+            font-size: 1.1rem;
+        }
+    }
+    
+    .circularProgress {
+        width: 90px;
+        height: 90px;
+        
+        .progressText {
+            font-size: 1.1rem;
+        }
+    }
+}
