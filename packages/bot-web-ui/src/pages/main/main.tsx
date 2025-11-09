@@ -24,10 +24,8 @@ import Copytrading from '../copytrading';
 import Botlist from '../botlist';
 import Smartedge from '../smartedge';
 import Signals from '../signals';
-import { FaChartBar, FaChartLine, FaPuzzlePiece, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt, FaCopy, FaLightbulb, FaChartPie } from 'react-icons/fa';
+import { FaChartBar, FaChartLine, FaPuzzlePiece, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt, FaCopy, FaLightbulb } from 'react-icons/fa';
 import { MdSchema, MdGridOn } from 'react-icons/md';
-import './main.scss';
-import Pro from '../pro';
 
 
 const AppWrapper = observer(() => {
@@ -167,13 +165,8 @@ const AppWrapper = observer(() => {
                 >
                     <Tabs
                         active_index={active_tab}
-                        className='main__tabs custom-tabs'
+                        className='main__tabs'
                         onTabItemClick={handleTabChange}
-                        top
-                        header_fit_content
-                        has_active_line={false}
-                        border_bottom={false}
-                        className='custom-tabs-container'
                         top
                     >
                         <div
@@ -287,18 +280,6 @@ const AppWrapper = observer(() => {
                             <Signals />
                         </div>
 
-                        <div
-                            label={
-                                <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
-                                    <FaChessKnight size={14} />
-                                    Pro Tool
-                                </span>
-                            }
-                            id='id-pro-tool'
-                        >
-                            <Pro />
-                        </div>
-
 
 
                     </Tabs>
@@ -307,14 +288,18 @@ const AppWrapper = observer(() => {
             {is_desktop ? (
                 <>
                     <div className='main__run-strategy-wrapper'>
-                        <RunStrategy />
-                        <RunPanel />
+                        {active_tab !== 4 && (
+                            <>
+                                <RunStrategy />
+                                <RunPanel />
+                            </>
+                        )}
                     </div>
                     <ChartModal />
                     <TradingViewModal />
                 </>
             ) : (
-                <RunPanel />
+                !is_open && active_tab !== 4 && <RunPanel />
             )}
             <Dialog
                 cancel_button_text={cancel_button_text || localize('Cancel')}

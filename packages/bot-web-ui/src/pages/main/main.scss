@@ -7,66 +7,6 @@
     }
 }
 
-// Custom Tabs Styling
-.custom-tabs-container {
-    .dc-tabs {
-        &__list {
-            background: #1e1f22;
-            padding: 0 1.6rem;
-            border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            
-            &-item {
-                padding: 0 1.2rem;
-                margin: 0 0.4rem;
-                height: 48px;
-                display: flex;
-                align-items: center;
-                position: relative;
-                color: #b2b5be;
-                font-weight: 500;
-                font-size: 1.3rem;
-                text-transform: uppercase;
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border-radius: 4px;
-                
-                svg {
-                    margin-right: 8px;
-                    font-size: 1.4rem;
-                }
-                
-                &:hover {
-                    color: #ffffff;
-                    background: rgba(255, 255, 255, 0.05);
-                }
-                
-                &--active {
-                    color: #ffffff;
-                    background: rgba(255, 255, 255, 0.1);
-                    font-weight: 600;
-                    
-                    &::after {
-                        content: '';
-                        position: absolute;
-                        bottom: 0;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        width: 40%;
-                        height: 3px;
-                        background: #ff444f;
-                        border-radius: 3px 3px 0 0;
-                    }
-                    
-                    &:hover {
-                        background: rgba(255, 255, 255, 0.15);
-                    }
-                }
-            }
-        }
-    }
-}
-
 .main {
     display: flex;
     overflow: hidden;
