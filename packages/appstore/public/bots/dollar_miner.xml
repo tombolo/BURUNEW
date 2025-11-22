@@ -55,7 +55,7 @@
         <field name="NOTIFICATION_SOUND">silent</field>
         <value name="MESSAGE">
           <shadow type="text" id="+wD(mrbDTpi6@+,J|OfM">
-            <field name="TEXT">Welcome to FINEST TRADERSer bot </field>
+            <field name="TEXT">Welcome to DERIV ANALYSISer bot </field>
           </shadow>
         </value>
         <next>
