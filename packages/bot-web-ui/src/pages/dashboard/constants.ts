@@ -8,7 +8,7 @@ export type TSidebarItem = {
 
 export const SIDEBAR_INTRO: TSidebarItem[] = [
     {
-        label: localize('Welcome to DERIV ANALYSIS'),
+        label: localize('Welcome to PROFIT HUB'),
         content: [
             {
                 data: localize(

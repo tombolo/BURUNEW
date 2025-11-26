@@ -43,7 +43,7 @@ const TradersHubHomeButton = observer(() => {
             
             <Text className='traders-hub-header__tradershub--text'>
                 
-                    <Localize i18n_default_text="DERIV ANALYSIS" />
+                    <Localize i18n_default_text="PROFIT HUB" />
             
             </Text>
         </div>

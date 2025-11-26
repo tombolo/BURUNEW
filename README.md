@@ -290,7 +290,7 @@ If preferable to use manual deployment, you can use [gh-pages](https://pages.git
 # BMBTRADERSTOOL
 # TTOOL
 # Masters
-# DERIV ANALYSIS-MAIN
+# PROFIT HUB-MAIN
 # merrick-main
 # BURU
 # SPINNER

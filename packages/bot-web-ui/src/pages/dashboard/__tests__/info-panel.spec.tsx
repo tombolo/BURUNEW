@@ -32,7 +32,7 @@ describe('InfoPanel', () => {
             wrapper,
         });
         expect(container).toBeInTheDocument();
-        expect(screen.getByText('Welcome to DERIV ANALYSIS!')).toBeInTheDocument();
+        expect(screen.getByText('Welcome to PROFIT HUB!')).toBeInTheDocument();
     });
 
     it('should render the closing of the info panel on close icon click', () => {
