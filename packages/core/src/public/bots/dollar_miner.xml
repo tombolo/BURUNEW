@@ -55,7 +55,7 @@
         <field name="NOTIFICATION_SOUND">silent</field>
         <value name="MESSAGE">
           <shadow type="text" id="+wD(mrbDTpi6@+,J|OfM">
-            <field name="TEXT">Welcome to PROFIT HUBer bot </field>
+            <field name="TEXT">Welcome to NILOTE TRADERSer bot </field>
           </shadow>
         </value>
         <next>
