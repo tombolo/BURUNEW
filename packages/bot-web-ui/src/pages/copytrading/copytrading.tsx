@@ -98,7 +98,7 @@ const TokenManager: React.FC = () => {
         <div style={{
             position: 'fixed',
             width: '100%',
-            height: isMobile ? '70vh' : '75vh',
+            height: isMobile ? '65vh' : '75vh',
             display: 'flex',
             flexDirection: 'column' as const,
             padding: isMobile ? '10px' : '20px',
@@ -122,11 +122,12 @@ const TokenManager: React.FC = () => {
             {/* Token Input Section */}
             <div style={{
                 backgroundColor: 'white',
-                borderRadius: '12px',
+                borderRadius: '6px',
                 padding: isMobile ? '16px' : '20px',
                 marginTop: '5px',
                 boxSizing: 'border-box' as const,
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+                border: '1px solid #e5e7eb'
             }}>
                 <div style={{
                     display: 'flex',
@@ -147,7 +148,7 @@ const TokenManager: React.FC = () => {
                             alignItems: 'center',
                             backgroundColor: '#f5f5f5',
                             padding: isMobile ? '10px 14px' : '12px 16px',
-                            borderRadius: '8px',
+                            borderRadius: '4px',
                             cursor: 'pointer',
                             border: '1px solid #e0e0e0',
                             alignSelf: isMobile ? 'center' : 'stretch'
@@ -170,8 +171,8 @@ const TokenManager: React.FC = () => {
                             style={{
                                 flex: 1,
                                 padding: isMobile ? '14px 16px' : '12px 16px',
-                                border: '2px solid #e0e0e0',
-                                borderRadius: '8px',
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '4px',
                                 fontSize: isMobile ? '16px' : '14px',
                                 outline: 'none',
                                 width: '100%',
@@ -188,7 +189,7 @@ const TokenManager: React.FC = () => {
                                 color: 'white',
                                 border: 'none',
                                 padding: isMobile ? '14px 16px' : '12px 20px',
-                                borderRadius: '8px',
+                                borderRadius: '4px',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
@@ -200,7 +201,7 @@ const TokenManager: React.FC = () => {
                                 fontSize: isMobile ? '15px' : '14px',
                                 flex: isMobile ? 1 : 'none',
                                 fontWeight: '600',
-                                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                                boxShadow: '0 1px 2px rgba(0,0,0,0.08)'
                             }}
                             onClick={saveToken}
                             disabled={!token}
@@ -228,11 +229,12 @@ const TokenManager: React.FC = () => {
             {/* Saved Token Display */}
             <div style={{
                 backgroundColor: 'white',
-                borderRadius: '12px',
+                borderRadius: '6px',
                 padding: isMobile ? '16px' : '20px',
                 marginTop: isMobile ? '15px' : '20px',
                 boxSizing: 'border-box' as const,
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+                border: '1px solid #e5e7eb',
                 flex: '0 0 auto'
             }}>
                 <div style={{
@@ -254,11 +256,11 @@ const TokenManager: React.FC = () => {
                         <div style={{
                             backgroundColor: '#f0f4ff',
                             padding: isMobile ? '12px 16px' : '10px 16px',
-                            borderRadius: '8px',
+                            borderRadius: '4px',
                             fontFamily: 'monospace',
                             fontSize: isMobile ? '14px' : '14px',
                             color: '#1a237e',
-                            border: '2px solid #d1d9ff',
+                            border: '1px solid #d1d9ff',
                             display: 'flex',
                             alignItems: 'center',
                             gap: '10px',
@@ -298,7 +300,7 @@ const TokenManager: React.FC = () => {
                                 color: 'white',
                                 border: 'none',
                                 padding: isMobile ? '14px 16px' : '12px 20px',
-                                borderRadius: '8px',
+                                borderRadius: '4px',
                                 fontWeight: '600',
                                 fontSize: isMobile ? '15px' : '15px',
                                 whiteSpace: 'nowrap' as const,
@@ -306,7 +308,7 @@ const TokenManager: React.FC = () => {
                                 cursor: 'pointer',
                                 flex: isMobile ? 1 : 'none',
                                 textAlign: 'center' as const,
-                                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                                boxShadow: '0 1px 2px rgba(0,0,0,0.08)',
                                 width: isMobile ? '100%' : 'auto'
                             }}
                             onClick={removeToken}
@@ -339,14 +341,14 @@ const TokenManager: React.FC = () => {
                                 color: 'white',
                                 border: 'none',
                                 padding: isMobile ? '16px 24px' : '14px 32px',
-                                borderRadius: '8px',
+                                borderRadius: '4px',
                                 fontWeight: '700',
                                 fontSize: isMobile ? '16px' : '18px',
                                 whiteSpace: 'nowrap' as const,
                                 transition: 'all 0.3s',
                                 cursor: 'pointer',
                                 textAlign: 'center' as const,
-                                boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+                                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                                 width: isMobile ? '100%' : 'auto',
                                 minWidth: isMobile ? 'auto' : '250px'
                             }}
@@ -371,8 +373,8 @@ const TokenManager: React.FC = () => {
                         marginTop: isMobile ? '15px' : '20px',
                         padding: isMobile ? '12px 16px' : '14px 20px',
                         backgroundColor: isCopyTrading ? '#f0f9f0' : '#f8f9fa',
-                        borderRadius: '8px',
-                        borderLeft: `4px solid ${isCopyTrading ? '#4CAF50' : '#9e9e9e'}`,
+                        borderRadius: '4px',
+                        borderLeft: `3px solid ${isCopyTrading ? '#4CAF50' : '#9e9e9e'}`,
                         fontSize: isMobile ? '14px' : '15px',
                         color: isCopyTrading ? '#2e7d32' : '#666',
                         textAlign: 'center' as const,
@@ -400,8 +402,8 @@ const TokenManager: React.FC = () => {
                     marginTop: isMobile ? '20px' : '25px',
                     padding: isMobile ? '12px 16px' : '16px 20px',
                     backgroundColor: '#f8f9fa',
-                    borderRadius: '8px',
-                    borderLeft: '4px solid #2196F3',
+                    borderRadius: '4px',
+                    borderLeft: '3px solid #2196F3',
                     fontSize: isMobile ? '13px' : '14px',
                     color: '#333',
                     lineHeight: '1.6'
@@ -437,11 +439,11 @@ const TokenManager: React.FC = () => {
                     alignItems: 'center',
                     gap: '12px',
                     padding: isMobile ? '14px 18px' : '16px 24px',
-                    borderRadius: '10px',
+                    borderRadius: '4px',
                     fontWeight: '600',
                     backgroundColor: toast.type === 'ok' ? '#4CAF50' : '#f44336',
                     color: 'white',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.12)',
                     animation: 'slideInRight 0.3s ease',
                     maxWidth: isMobile ? 'calc(100% - 20px)' : '400px'
                 }}>

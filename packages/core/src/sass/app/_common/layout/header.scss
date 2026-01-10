@@ -608,39 +608,27 @@
     }
 }
 
-@keyframes gradientShiftFinestMobile {
-    0%, 100% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-}
 
 // FINEST TRADERS styling for navigation menu (mobile drawer)
 .dc-menu-link {
     padding: 0.6rem 1rem !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    border-radius: 8px !important;
+    border-radius: 6px !important;
     position: relative !important;
     
     &__text {
-        font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif !important;
+        font-family: 'Inter', 'Segoe UI', 'Roboto', -apple-system, sans-serif !important;
         font-size: 1.4rem !important;
-        font-weight: 800 !important;
+        font-weight: 900 !important;
         font-style: normal !important;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%) !important;
-        background-size: 300% 300% !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-        letter-spacing: 2px !important;
+        color: #1e3a8a !important;
+        letter-spacing: 1.5px !important;
         text-transform: uppercase !important;
         padding: 0.4rem 0.6rem !important;
         position: relative !important;
         display: inline-block !important;
-        animation: gradientShiftFinestMobile 3s ease infinite !important;
-        text-shadow: 0 2px 8px rgba(102, 126, 234, 0.3) !important;
+        text-shadow: 0 2px 8px rgba(30, 58, 138, 0.3) !important;
+        transition: all 0.3s ease !important;
         
         &::before {
             content: '' !important;
@@ -649,8 +637,8 @@
             left: -4px !important;
             right: -4px !important;
             bottom: -4px !important;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 50%, rgba(79, 172, 254, 0.15) 100%) !important;
-            border-radius: 12px !important;
+            background: rgba(30, 58, 138, 0.05) !important;
+            border-radius: 8px !important;
             z-index: -1 !important;
             opacity: 0 !important;
             transition: opacity 0.3s ease !important;
@@ -658,7 +646,12 @@
     }
     
     &:hover {
-        background: rgba(102, 126, 234, 0.05) !important;
+        background: rgba(30, 58, 138, 0.05) !important;
+        
+        .dc-menu-link__text {
+            color: #1e40af !important;
+            text-shadow: 0 4px 12px rgba(30, 58, 138, 0.4) !important;
+        }
         
         .dc-menu-link__text::before {
             opacity: 1 !important;
