@@ -7,14 +7,14 @@ import { loadStrategy } from '../../../../../bot-skeleton/src/utils/local-storag
 
 const BOT_EMOJIS = ['🤖', '👾', '🦾', '🧠', '⚡', '💻', '🔮', '🎮'];
 const BOT_DESCRIPTIONS = [
-    "This bot uses moving averages to identify trends. It enters trades when short-term averages cross above long-term ones.",
-    "A volatility-based bot that expands position size during high volatility. It uses Bollinger Bands to determine entry points.",
-    "This mean-reversion bot trades when prices deviate from historical averages. It works best in ranging markets.",
-    "A breakout strategy that enters trades when price moves beyond support/resistance. Uses volume confirmation.",
-    "This bot implements a simple scalping strategy. It aims for small profits with tight stop losses.",
-    "A momentum-based bot that follows strong trending moves. Uses RSI to avoid overbought conditions.",
-    "This grid bot places orders at fixed intervals above and below price. It profits from market oscillations.",
-    "A news-based bot that reacts to economic events. Uses sentiment analysis to determine trade direction."
+    "Uses moving averages to identify trends and enter trades on crossovers.",
+    "Volatility-based bot with Bollinger Bands for entry points and position sizing.",
+    "Mean-reversion strategy that trades when prices deviate from averages.",
+    "Breakout strategy with volume confirmation for support/resistance levels.",
+    "Scalping bot targeting small profits with tight stop losses.",
+    "Momentum-based bot following trends with RSI for overbought conditions.",
+    "Grid bot placing orders at fixed intervals for market oscillations.",
+    "News-based bot reacting to economic events using sentiment analysis."
 ];
 
 const RecentWorkspace = observer(({ workspace, index }: { workspace: TRecentStrategy, index: number }) => {

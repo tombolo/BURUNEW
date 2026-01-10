@@ -8,7 +8,7 @@ import { useDBotStore } from 'Stores/useDBotStore';
 import { rudderStackSendOpenEvent } from '../../analytics/rudderstack-common-events';
 import { rudderStackSendDashboardClickEvent } from '../../analytics/rudderstack-dashboard';
 import DashboardBotList from './bot-list/dashboard-bot-list';
-import { UploadIcon, CloudIcon, BuilderIcon, StrategyIcon } from './custom-icons';
+import { UploadIcon, CloudIcon, BuilderIcon, StrategyIcon, FreeBotsIcon, AnalysisToolsIcon } from './custom-icons';
 
 type TCardProps = {
     has_dashboard_strategies: boolean;
@@ -18,7 +18,7 @@ type TCardProps = {
 
 type TCardArray = {
     type: string;
-    icon: 'upload' | 'cloud' | 'builder' | 'strategy';
+    icon: 'upload' | 'cloud' | 'builder' | 'strategy' | 'free-bots' | 'analysis-tools';
     content: string;
     callback: () => void;
 };
@@ -29,6 +29,8 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCard
         'google-drive': localize('Access your saved bots from Google Drive'),
         'bot-builder': localize('Build your bot from scratch with our visual editor'),
         'quick-strategy': localize('Use pre-built strategies to get started quickly'),
+        'free-bots': localize('Explore our collection of free trading bots'),
+        'analysis-tools': localize('Powerful tools for market analysis and insights'),
     };
     
     const { dashboard, load_modal, quick_strategy } = useDBotStore();
@@ -42,6 +44,8 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCard
         'google-drive': CloudIcon,
         'bot-builder': BuilderIcon,
         'quick-strategy': StrategyIcon,
+        'free-bots': FreeBotsIcon,
+        'analysis-tools': AnalysisToolsIcon,
     };
 
     const openGoogleDriveDialog = () => {
@@ -111,6 +115,30 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCard
                 });
             },
         },
+        {
+            type: 'free-bots',
+            icon: 'free-bots',
+            content: localize('Free Bots'),
+            callback: () => {
+                setActiveTab(DBOT_TABS.BOTLIST);
+                rudderStackSendDashboardClickEvent({
+                    dashboard_click_name: 'free_bots',
+                    subpage_name: 'botlist',
+                });
+            },
+        },
+        {
+            type: 'analysis-tools',
+            icon: 'analysis-tools',
+            content: localize('Analysis Tools'),
+            callback: () => {
+                setActiveTab(DBOT_TABS.FINESTTOOL);
+                rudderStackSendDashboardClickEvent({
+                    dashboard_click_name: 'analysis_tools',
+                    subpage_name: 'finesttool',
+                });
+            },
+        },
     ];
 
     return React.useMemo(
@@ -133,8 +161,8 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCard
                         >
                             <div className='dashboard-card__icon'>
                                 {React.createElement(iconComponents[action.type as keyof typeof iconComponents], {
-                                    width: is_mobile ? '32' : '40',
-                                    height: is_mobile ? '32' : '40',
+                                    width: is_mobile ? '28' : '36',
+                                    height: is_mobile ? '28' : '36',
                                 })}
                             </div>
                             <div className='dashboard-card__content'>
@@ -149,7 +177,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCard
                                 </Text>
                                 <Text
                                     as='p'
-                                    size={is_mobile ? 'xxs' : 'xs'}
+                                    size='xs'
                                     line_height='m'
                                     className='dashboard-card__description'
                                 >
@@ -163,7 +191,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCard
                 <DashboardBotList />
             </div>
         ),
-        [is_dialog_open, has_dashboard_strategies, children, actions]
+        [is_dialog_open, has_dashboard_strategies, children, actions, is_mobile]
     );
 });
 

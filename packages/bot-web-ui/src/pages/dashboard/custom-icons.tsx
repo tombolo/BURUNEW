@@ -104,3 +104,56 @@ export const StrategyIcon: React.FC<{ width?: string; height?: string; className
         <circle cx="24" cy="20" r="2" fill="white"/>
     </svg>
 );
+
+export const FreeBotsIcon: React.FC<{ width?: string; height?: string; className?: string }> = ({ 
+    width = '40', 
+    height = '40', 
+    className 
+}) => (
+    <svg 
+        width={width} 
+        height={height} 
+        viewBox="0 0 40 40" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+        className={className}
+    >
+        <rect width="40" height="40" rx="4" fill="#EC4899" fillOpacity="0.1"/>
+        <rect x="10" y="14" width="8" height="12" rx="2" fill="#EC4899"/>
+        <rect x="22" y="14" width="8" height="12" rx="2" fill="#EC4899"/>
+        <circle cx="14" cy="18" r="1.5" fill="white"/>
+        <circle cx="26" cy="18" r="1.5" fill="white"/>
+        <rect x="12" y="21" width="4" height="2" rx="1" fill="white"/>
+        <rect x="24" y="21" width="4" height="2" rx="1" fill="white"/>
+        <path d="M14 26H26" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M14 28H26" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+);
+
+export const AnalysisToolsIcon: React.FC<{ width?: string; height?: string; className?: string }> = ({ 
+    width = '40', 
+    height = '40', 
+    className 
+}) => (
+    <svg 
+        width={width} 
+        height={height} 
+        viewBox="0 0 40 40" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+        className={className}
+    >
+        <rect width="40" height="40" rx="4" fill="#06B6D4" fillOpacity="0.1"/>
+        <path 
+            d="M12 28L16 18L20 24L24 14L28 28" 
+            stroke="#06B6D4" 
+            strokeWidth="2.5" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+        />
+        <circle cx="16" cy="18" r="2" fill="#06B6D4"/>
+        <circle cx="20" cy="24" r="2" fill="#06B6D4"/>
+        <circle cx="24" cy="14" r="2" fill="#06B6D4"/>
+        <line x1="12" y1="28" x2="28" y2="28" stroke="#06B6D4" strokeWidth="2" strokeLinecap="round"/>
+    </svg>
+);
