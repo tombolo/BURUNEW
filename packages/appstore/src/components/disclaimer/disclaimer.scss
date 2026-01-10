@@ -1,22 +1,42 @@
 // disclaimer.scss
 
-// Trigger button at the bottom
+// Trigger button at the bottom (draggable)
 .disclaimer-trigger {
     position: fixed;
     bottom: 2rem;
     left: 50%;
     transform: translateX(-50%);
     z-index: 9999;
-    cursor: pointer;
+    cursor: move;
+    user-select: none;
+    touch-action: none;
     
     @include mobile-or-tablet-screen {
         bottom: 1rem;
-        width: calc(100% - 2rem);
-        max-width: 240px;
+        max-width: 120px;
+        width: auto;
+        min-width: 80px;
     }
     
     @include desktop-screen {
         bottom: 2rem;
+        max-width: 200px;
+        width: auto;
+        min-width: 140px;
+    }
+    
+    &--dragging {
+        opacity: 0.9;
+        cursor: grabbing !important;
+        z-index: 10001;
+        
+        .disclaimer-header {
+            cursor: grabbing !important;
+        }
+    }
+    
+    &:active {
+        cursor: grabbing;
     }
 }
 
@@ -74,6 +94,14 @@
         .disclaimer-modal-header {
             cursor: grabbing !important;
         }
+    }
+    
+    // Initial state - centered via CSS before JavaScript positioning takes over
+    &--initial {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 }
 
@@ -154,7 +182,7 @@
     padding: 0.7rem 1rem;
     background: linear-gradient(135deg, #d97706, #b45309);
     color: white;
-    cursor: pointer;
+    cursor: move;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -164,47 +192,35 @@
     font-weight: 500;
     letter-spacing: 0.3px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    pointer-events: auto;
     
     &:hover {
         background: linear-gradient(135deg, #b45309, #92400e);
-        transform: translateY(-1px);
         box-shadow: 0 4px 16px rgba(217, 119, 6, 0.25);
+    }
+    
+    &:active {
+        cursor: grabbing;
     }
     
     // Desktop styles
     @include desktop-screen {
-        padding: 0.5rem 0.6rem;
-        font-size: 0.8em;
+        padding: 0.6rem 1rem;
+        font-size: 0.85em;
     }
     
-    // Mobile styles
+    // Mobile styles - reduced size
     @include mobile-or-tablet-screen {
-        padding: 0.4rem 0.6rem;
-        position: relative;
-        z-index: 10001;
+        padding: 0.35rem 0.6rem;
+        font-size: 0.65em;
         border-radius: 4px;
-        width: auto;
         min-width: 80px;
-        flex-direction: column;
-        gap: 4px;
+        max-width: 120px;
     }
     
-    &--mobile, &--desktop {
-        padding: 6px 6px;
-        min-height: auto;
-        writing-mode: horizontal-tb;
-        transform: none;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-        background-color: #d97706;
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 6px;
-        
-        .disclaimer-drag-handle {
-            display: flex;
-            color: rgba(0, 0, 0, 0.6);
-            cursor: move;
-        }
+    .dc-text {
+        pointer-events: none;
+        white-space: nowrap;
     }
 }
 

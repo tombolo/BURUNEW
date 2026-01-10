@@ -113,7 +113,7 @@ const Chart = observer(({ show_digits_stats }: { show_digits_stats: boolean }) =
                     </button>
                     <iframe
                         id="trading-view-iframe"
-                        src="https://www.tradingview.com/chart/"
+                        src="https://charts.deriv.com/deriv"
                         className="chart__trading-view-iframe"
                         title="TradingView Chart"
                         allow="fullscreen"

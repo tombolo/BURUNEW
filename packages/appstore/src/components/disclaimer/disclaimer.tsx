@@ -8,23 +8,147 @@ const Disclaimer = () => {
     const { isDesktop, isMobile } = useDevice();
     const [isExpanded, setIsExpanded] = useState(false);
     const modalRef = useRef<HTMLDivElement>(null);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const triggerRef = useRef<HTMLDivElement>(null);
+    const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
+    const [isInitialized, setIsInitialized] = useState(false);
+    const [triggerPosition, setTriggerPosition] = useState<{ x: number; y: number } | null>(null);
     const [isDragging, setIsDragging] = useState(false);
+    const [isTriggerDragging, setIsTriggerDragging] = useState(false);
+    const [wasTriggerDragged, setWasTriggerDragged] = useState(false);
+    const dragStartPositionRef = useRef({ x: 0, y: 0 });
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+    const [triggerDragOffset, setTriggerDragOffset] = useState({ x: 0, y: 0 });
 
-    const toggleDisclaimer = (e?: React.MouseEvent) => {
-        e?.stopPropagation();
-        setIsExpanded(!isExpanded);
-        
-        // Center the modal when first opened
-        if (!isExpanded && modalRef.current) {
-            const modalWidth = modalRef.current.offsetWidth || 600;
-            const modalHeight = modalRef.current.offsetHeight || 400;
-            setPosition({
-                x: (window.innerWidth - modalWidth) / 2,
-                y: (window.innerHeight - modalHeight) / 2
-            });
+    const toggleDisclaimer = (e?: React.MouseEvent | React.TouchEvent) => {
+        // Don't toggle if we just finished dragging
+        if (wasTriggerDragged) {
+            setWasTriggerDragged(false);
+            e?.stopPropagation();
+            return;
         }
+        e?.stopPropagation();
+        
+        const willExpand = !isExpanded;
+        
+        // Calculate centered position immediately before opening (based on viewport)
+        if (willExpand) {
+            // Use estimated dimensions based on screen size to avoid jump
+            const estimatedWidth = isMobile ? Math.min(window.innerWidth * 0.9, 400) : 600;
+            const estimatedHeight = Math.min(window.innerHeight * 0.85, 500);
+            
+            setPosition({
+                x: (window.innerWidth - estimatedWidth) / 2,
+                y: (window.innerHeight - estimatedHeight) / 2
+            });
+            setIsInitialized(false);
+        } else {
+            // Reset when closing
+            setPosition(null);
+            setIsInitialized(false);
+        }
+        
+        setIsExpanded(willExpand);
+    };
+
+    // Trigger button drag handlers
+    const handleTriggerMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isDesktop || !triggerRef.current) return;
+        
+        e.preventDefault();
+        e.stopPropagation();
+        const rect = triggerRef.current.getBoundingClientRect();
+        setTriggerDragOffset({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+        });
+        dragStartPositionRef.current = { x: e.clientX, y: e.clientY };
+        setIsTriggerDragging(true);
+        setWasTriggerDragged(false);
+    };
+
+    const handleTriggerMouseMove = React.useCallback((e: MouseEvent) => {
+        if (!isTriggerDragging || !isDesktop || !triggerRef.current) return;
+
+        const newX = e.clientX - triggerDragOffset.x;
+        const newY = e.clientY - triggerDragOffset.y;
+
+        const maxX = window.innerWidth - triggerRef.current.offsetWidth;
+        const maxY = window.innerHeight - triggerRef.current.offsetHeight;
+
+        // Calculate relative to viewport (0,0 is top-left)
+        const clampedX = Math.max(0, Math.min(newX, maxX));
+        const clampedY = Math.max(0, Math.min(newY, maxY));
+
+        // Check if we actually moved more than a few pixels
+        const deltaX = Math.abs(e.clientX - dragStartPositionRef.current.x);
+        const deltaY = Math.abs(e.clientY - dragStartPositionRef.current.y);
+        if (deltaX > 5 || deltaY > 5) {
+            setWasTriggerDragged(true);
+        }
+
+        setTriggerPosition({
+            x: clampedX,
+            y: clampedY
+        });
+    }, [isTriggerDragging, isDesktop, triggerDragOffset]);
+
+    const handleTriggerMouseUp = React.useCallback(() => {
+        if (isTriggerDragging && wasTriggerDragged) {
+            // Reset after a short delay to allow click handler to check
+            setTimeout(() => setWasTriggerDragged(false), 200);
+        }
+        setIsTriggerDragging(false);
+    }, [isTriggerDragging, wasTriggerDragged]);
+
+    const handleTriggerTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+        if (!isMobile || !triggerRef.current) return;
+
+        const touch = e.touches[0];
+        e.preventDefault();
+        e.stopPropagation();
+        const rect = triggerRef.current.getBoundingClientRect();
+        setTriggerDragOffset({
+            x: touch.clientX - rect.left,
+            y: touch.clientY - rect.top
+        });
+        dragStartPositionRef.current = { x: touch.clientX, y: touch.clientY };
+        setIsTriggerDragging(true);
+        setWasTriggerDragged(false);
+    };
+
+    const handleTriggerTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+        if (!isTriggerDragging || !isMobile || !triggerRef.current) return;
+
+        e.preventDefault();
+        const touch = e.touches[0];
+        const newX = touch.clientX - triggerDragOffset.x;
+        const newY = touch.clientY - triggerDragOffset.y;
+
+        const maxX = window.innerWidth - triggerRef.current.offsetWidth;
+        const maxY = window.innerHeight - triggerRef.current.offsetHeight;
+
+        const clampedX = Math.max(0, Math.min(newX, maxX));
+        const clampedY = Math.max(0, Math.min(newY, maxY));
+
+        // Check if we actually moved more than a few pixels
+        const deltaX = Math.abs(touch.clientX - dragStartPositionRef.current.x);
+        const deltaY = Math.abs(touch.clientY - dragStartPositionRef.current.y);
+        if (deltaX > 5 || deltaY > 5) {
+            setWasTriggerDragged(true);
+        }
+
+        setTriggerPosition({
+            x: clampedX,
+            y: clampedY
+        });
+    };
+
+    const handleTriggerTouchEnd = () => {
+        if (isTriggerDragging && wasTriggerDragged) {
+            // Reset after a short delay to allow click handler to check
+            setTimeout(() => setWasTriggerDragged(false), 200);
+        }
+        setIsTriggerDragging(false);
     };
 
     const closeDisclaimer = (e: React.MouseEvent) => {
@@ -133,28 +257,37 @@ const Disclaimer = () => {
         setIsDragging(false);
     };
 
-    // Center modal when first opened
+    // Fine-tune modal position after render to ensure perfect centering (only adjust if significantly different)
     useEffect(() => {
-        if (isExpanded && modalRef.current) {
-            // Use setTimeout to ensure DOM is rendered
-            setTimeout(() => {
-                if (modalRef.current) {
-                    const modalWidth = modalRef.current.offsetWidth || 600;
-                    const modalHeight = modalRef.current.offsetHeight || 400;
+        if (isExpanded && modalRef.current && position && !isInitialized) {
+            // Use a small delay to ensure DOM is fully rendered and dimensions are accurate
+            const updatePosition = () => {
+                if (modalRef.current && position) {
+                    const modalWidth = modalRef.current.offsetWidth;
+                    const modalHeight = modalRef.current.offsetHeight;
                     const overlayRect = modalRef.current.closest('.disclaimer-modal-overlay')?.getBoundingClientRect();
                     const overlayWidth = overlayRect?.width || window.innerWidth;
                     const overlayHeight = overlayRect?.height || window.innerHeight;
                     
-                    setPosition({
-                        x: (overlayWidth - modalWidth) / 2,
-                        y: (overlayHeight - modalHeight) / 2
-                    });
+                    // Calculate precise centered position
+                    const newX = (overlayWidth - modalWidth) / 2;
+                    const newY = (overlayHeight - modalHeight) / 2;
+                    
+                    // Only update if significantly different (more than 5px) to avoid visible jump
+                    if (Math.abs(position.x - newX) > 5 || Math.abs(position.y - newY) > 5) {
+                        setPosition({ x: newX, y: newY });
+                    }
+                    setIsInitialized(true);
                 }
-            }, 0);
+            };
+            
+            // Use setTimeout with minimal delay to allow render to complete
+            const timer = setTimeout(updatePosition, 0);
+            return () => clearTimeout(timer);
         }
-    }, [isExpanded]);
+    }, [isExpanded, position, isInitialized]);
 
-    // Add/remove mouse event listeners for desktop dragging
+    // Add/remove mouse event listeners for modal dragging
     useEffect(() => {
         if (isDesktop && isDragging) {
             document.addEventListener('mousemove', handleMouseMove);
@@ -166,6 +299,19 @@ const Disclaimer = () => {
             };
         }
     }, [isDesktop, isDragging, handleMouseMove, handleMouseUp]);
+
+    // Add/remove mouse event listeners for trigger button dragging
+    useEffect(() => {
+        if (isDesktop && isTriggerDragging) {
+            document.addEventListener('mousemove', handleTriggerMouseMove);
+            document.addEventListener('mouseup', handleTriggerMouseUp);
+
+            return () => {
+                document.removeEventListener('mousemove', handleTriggerMouseMove);
+                document.removeEventListener('mouseup', handleTriggerMouseUp);
+            };
+        }
+    }, [isDesktop, isTriggerDragging, handleTriggerMouseMove, handleTriggerMouseUp]);
 
     // Close modal on Escape key press
     useEffect(() => {
@@ -189,8 +335,27 @@ const Disclaimer = () => {
 
     return (
         <>
-            {/* Trigger button at the bottom */}
-            <div className="disclaimer-trigger" onClick={toggleDisclaimer} data-testid='dt_disclaimer_header'>
+            {/* Trigger button at the bottom (draggable) */}
+            <div 
+                ref={triggerRef}
+                className={`disclaimer-trigger ${isTriggerDragging ? 'disclaimer-trigger--dragging' : ''}`}
+                onMouseDown={handleTriggerMouseDown}
+                onMouseUp={handleTriggerMouseUp}
+                onClick={toggleDisclaimer}
+                onTouchStart={handleTriggerTouchStart}
+                onTouchMove={handleTriggerTouchMove}
+                onTouchEnd={handleTriggerTouchEnd}
+                style={{
+                    left: triggerPosition ? `${triggerPosition.x}px` : '50%',
+                    top: triggerPosition ? `${triggerPosition.y}px` : undefined,
+                    bottom: triggerPosition ? 'auto' : (isMobile ? '1rem' : '2rem'),
+                    transform: triggerPosition 
+                        ? undefined 
+                        : 'translateX(-50%)',
+                    transition: isTriggerDragging ? 'none' : 'all 0.2s ease'
+                }}
+                data-testid='dt_disclaimer_header'
+            >
                 <div className={`disclaimer-header ${isMobile ? 'disclaimer-header--mobile' : 'disclaimer-header--desktop'}`}>
                     <Text size={isMobile ? 'xxxs' : 'xxs'} weight='bold'>
                         <Localize i18n_default_text='Risk Disclaimer' />
@@ -204,13 +369,20 @@ const Disclaimer = () => {
                     <div
                         ref={modalRef}
                         data-testid='dt_traders_hub_disclaimer'
-                        className={`disclaimer-modal ${isMobile ? 'disclaimer-modal--mobile' : 'disclaimer-modal--desktop'} ${isDragging ? 'disclaimer-modal--dragging' : ''}`}
-                        style={{
+                        className={`disclaimer-modal ${isMobile ? 'disclaimer-modal--mobile' : 'disclaimer-modal--desktop'} ${isDragging ? 'disclaimer-modal--dragging' : ''} ${!isInitialized ? 'disclaimer-modal--initial' : ''}`}
+                        style={position ? {
                             transform: `translate(${position.x}px, ${position.y}px)`,
-                            transition: isDragging ? 'none' : 'transform 0.2s ease',
+                            transition: isDragging ? 'none' : (isInitialized ? 'transform 0.2s ease-out' : 'transform 0s'),
                             position: 'absolute',
                             top: 0,
                             left: 0
+                        } : {
+                            // CSS will center it initially (shouldn't happen, but fallback)
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            transition: 'transform 0.3s ease-out'
                         }}
                         onClick={(e) => e.stopPropagation()}
                     >
