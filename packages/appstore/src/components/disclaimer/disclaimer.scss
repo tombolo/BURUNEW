@@ -1,0 +1,358 @@
+// disclaimer.scss
+
+// Trigger button at the bottom
+.disclaimer-trigger {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    cursor: pointer;
+    
+    @include mobile-or-tablet-screen {
+        bottom: 1rem;
+        width: calc(100% - 2rem);
+        max-width: 240px;
+    }
+    
+    @include desktop-screen {
+        bottom: 2rem;
+    }
+}
+
+// Modal overlay backdrop
+.disclaimer-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: fadeIn 0.2s ease-out;
+    backdrop-filter: blur(2px);
+    overflow: hidden;
+}
+
+// Modal container (centered, draggable)
+.disclaimer-modal {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 100%;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: modalSlideIn 0.3s ease-out;
+    cursor: default;
+    
+    @include mobile-or-tablet-screen {
+        max-width: 90vw;
+        max-height: 90vh;
+        border-radius: 10px;
+    }
+    
+    &--desktop {
+        max-width: 600px;
+    }
+    
+    &--mobile {
+        max-width: 95vw;
+    }
+    
+    &--dragging {
+        opacity: 0.95;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        cursor: grabbing !important;
+        
+        .disclaimer-modal-header {
+            cursor: grabbing !important;
+        }
+    }
+}
+
+// Modal header with close button (draggable area)
+.disclaimer-modal-header {
+    padding: 1.5rem 1.5rem 1rem;
+    background: linear-gradient(135deg, #d97706, #b45309);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: move;
+    user-select: none;
+    touch-action: none;
+    
+    .dc-text {
+        color: white;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        pointer-events: none;
+    }
+    
+    @include mobile-or-tablet-screen {
+        padding: 1.2rem 1.2rem 1rem;
+    }
+    
+    &:active {
+        cursor: grabbing;
+    }
+}
+
+// Close button
+.disclaimer-close-button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: white;
+    flex-shrink: 0;
+    margin-left: 1rem;
+    
+    &:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: rotate(90deg) scale(1.1);
+    }
+    
+    &:active {
+        transform: rotate(90deg) scale(0.95);
+    }
+    
+    svg {
+        width: 20px;
+        height: 20px;
+        stroke: currentColor;
+    }
+    
+    @include mobile-or-tablet-screen {
+        width: 28px;
+        height: 28px;
+        
+        svg {
+            width: 18px;
+            height: 18px;
+        }
+    }
+}
+
+.disclaimer-header {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    background: linear-gradient(135deg, #d97706, #b45309);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(217, 119, 6, 0.2);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    
+    &:hover {
+        background: linear-gradient(135deg, #b45309, #92400e);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(217, 119, 6, 0.25);
+    }
+    
+    // Desktop styles
+    @include desktop-screen {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.8em;
+    }
+    
+    // Mobile styles
+    @include mobile-or-tablet-screen {
+        padding: 0.4rem 0.6rem;
+        position: relative;
+        z-index: 10001;
+        border-radius: 4px;
+        width: auto;
+        min-width: 80px;
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    &--mobile, &--desktop {
+        padding: 6px 6px;
+        min-height: auto;
+        writing-mode: horizontal-tb;
+        transform: none;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+        background-color: #d97706;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 6px;
+        
+        .disclaimer-drag-handle {
+            display: flex;
+            color: rgba(0, 0, 0, 0.6);
+            cursor: move;
+        }
+    }
+}
+
+.disclaimer-drag-handle {
+    display: none;
+}
+
+// Modal content area (scrollable)
+.disclaimer-modal .disclaimer-text {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 10px;
+        &:hover {
+            background: #a8a8a8;
+        }
+    }
+    
+    @include mobile-or-tablet-screen {
+        padding: 1.2rem;
+    }
+}
+
+.disclaimer-text {
+    line-height: 1.6;
+    color: #374151;
+    font-size: 0.9rem;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    
+    // Add some spacing between paragraphs
+    p {
+        margin: 0 0 1rem 0;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    
+    // Style important parts
+    strong {
+        color: #1f2937;
+        font-weight: 600;
+    }
+    
+    // Add some styling for lists
+    ul {
+        padding-left: 1.5rem;
+        margin: 0.8rem 0 1.2rem;
+        
+        li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            
+            &::marker {
+                color: #d97706;
+                font-weight: bold;
+            }
+        }
+    }
+    
+    // Add a subtle border and background for important notes
+    .important-note {
+        background-color: #fffbeb;
+        border-left: 3px solid #f59e0b;
+        padding: 0.9rem 1.2rem;
+        border-radius: 0 6px 6px 0;
+        margin: 1.2rem 0;
+        font-size: 0.9em;
+        
+        strong {
+            color: #b45309;
+        }
+    }
+    
+    // Desktop styles
+    @include desktop-screen {
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+    
+    // Mobile styles
+    @include mobile-or-tablet-screen {
+        font-size: 0.85rem;
+        line-height: 1.6;
+    }
+}
+
+.disclaimer__bottom-plug {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 2rem;
+    z-index: 3;
+    backface-visibility: hidden;
+    background: var(--general-main-1);
+    
+    @include mobile-or-tablet-screen {
+        height: 0;
+        display: none;
+    }
+}
+
+// Animations
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+// Responsive adjustments for very small screens
+@media screen and (max-width: 360px) {
+    .disclaimer-modal {
+        max-width: 95vw;
+    }
+}
+
+// Desktop-specific media query
+@mixin desktop-screen {
+    @media screen and (min-width: 768px) {
+        @content;
+    }
+}
+
+// Mobile and tablet media query
+@mixin mobile-or-tablet-screen {
+    @media screen and (max-width: 767px) {
+        @content;
+    }
+}
