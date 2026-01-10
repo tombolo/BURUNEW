@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Icon, Text } from '@deriv/components';
+import { Text } from '@deriv/components';
 import { observer } from '@deriv/stores';
 import { localize } from '@deriv/translations';
 import { DBOT_TABS } from 'Constants/bot-contents';
@@ -8,6 +8,7 @@ import { useDBotStore } from 'Stores/useDBotStore';
 import { rudderStackSendOpenEvent } from '../../analytics/rudderstack-common-events';
 import { rudderStackSendDashboardClickEvent } from '../../analytics/rudderstack-dashboard';
 import DashboardBotList from './bot-list/dashboard-bot-list';
+import { UploadIcon, CloudIcon, BuilderIcon, StrategyIcon } from './custom-icons';
 
 type TCardProps = {
     has_dashboard_strategies: boolean;
@@ -17,29 +18,31 @@ type TCardProps = {
 
 type TCardArray = {
     type: string;
-    icon: string;
+    icon: 'upload' | 'cloud' | 'builder' | 'strategy';
     content: string;
     callback: () => void;
 };
 
 const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCardProps) => {
-    const cardIcons = {
-        'my-computer': 'IcMyComputer',
-        'google-drive': 'IcGoogleDriveDbot',
-        'bot-builder': 'IcBotBuilder',
-        'quick-strategy': 'IcQuickStrategy',
-    };
-
     const cardDescriptions = {
         'my-computer': localize('Upload your bot from your device'),
         'google-drive': localize('Access your saved bots from Google Drive'),
         'bot-builder': localize('Build your bot from scratch with our visual editor'),
         'quick-strategy': localize('Use pre-built strategies to get started quickly'),
     };
+    
     const { dashboard, load_modal, quick_strategy } = useDBotStore();
     const { toggleLoadModal, setActiveTabIndex } = load_modal;
     const { is_dialog_open, setActiveTab } = dashboard;
     const { setFormVisibility } = quick_strategy;
+    
+    // Icon mapping to custom components
+    const iconComponents = {
+        'my-computer': UploadIcon,
+        'google-drive': CloudIcon,
+        'bot-builder': BuilderIcon,
+        'quick-strategy': StrategyIcon,
+    };
 
     const openGoogleDriveDialog = () => {
         toggleLoadModal();
@@ -56,7 +59,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCard
     const actions: TCardArray[] = [
         {
             type: 'my-computer',
-            icon: is_mobile ? 'IcLocal' : 'IcMyComputer',
+            icon: 'upload',
             content: is_mobile ? localize('Local') : localize('My computer'),
             callback: () => {
                 openFileLoader();
@@ -70,7 +73,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCard
         },
         {
             type: 'google-drive',
-            icon: 'IcGoogleDriveDbot',
+            icon: 'cloud',
             content: localize('Google Drive'),
             callback: () => {
                 openGoogleDriveDialog();
@@ -84,7 +87,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCard
         },
         {
             type: 'bot-builder',
-            icon: 'IcBotBuilder',
+            icon: 'builder',
             content: localize('Bot Builder'),
             callback: () => {
                 setActiveTab(DBOT_TABS.BOT_BUILDER);
@@ -96,7 +99,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCard
         },
         {
             type: 'quick-strategy',
-            icon: 'IcQuickStrategy',
+            icon: 'strategy',
             content: localize('Quick strategy'),
             callback: () => {
                 setActiveTab(DBOT_TABS.BOT_BUILDER);
@@ -129,11 +132,10 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCard
                             tabIndex={0}
                         >
                             <div className='dashboard-card__icon'>
-                                <Icon
-                                    icon={action.icon}
-                                    width={is_mobile ? '32' : '40'}
-                                    height={is_mobile ? '32' : '40'}
-                                />
+                                {React.createElement(iconComponents[action.type as keyof typeof iconComponents], {
+                                    width: is_mobile ? '32' : '40',
+                                    height: is_mobile ? '32' : '40',
+                                })}
                             </div>
                             <div className='dashboard-card__content'>
                                 <Text
@@ -153,9 +155,6 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCard
                                 >
                                     {cardDescriptions[action.type as keyof typeof cardDescriptions]}
                                 </Text>
-                            </div>
-                            <div className='dashboard-card__arrow'>
-                                <Icon icon='IcChevronRight' size={16} />
                             </div>
                         </div>
                     ))}
