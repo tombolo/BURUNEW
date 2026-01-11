@@ -161,8 +161,8 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCard
                         >
                             <div className='dashboard-card__icon'>
                                 {React.createElement(iconComponents[action.type as keyof typeof iconComponents], {
-                                    width: is_mobile ? '32' : '40',
-                                    height: is_mobile ? '32' : '40',
+                                    width: is_mobile ? '64' : '80',
+                                    height: is_mobile ? '64' : '80',
                                 })}
                             </div>
                             <div className='dashboard-card__content'>
