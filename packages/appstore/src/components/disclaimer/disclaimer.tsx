@@ -36,11 +36,15 @@ const Disclaimer = () => {
             const estimatedWidth = isMobile ? Math.min(window.innerWidth * 0.9, 400) : 600;
             const estimatedHeight = Math.min(window.innerHeight * 0.85, 500);
             
+            // Set position immediately and synchronously
+            const centeredX = (window.innerWidth - estimatedWidth) / 2;
+            const centeredY = (window.innerHeight - estimatedHeight) / 2;
+            
             setPosition({
-                x: (window.innerWidth - estimatedWidth) / 2,
-                y: (window.innerHeight - estimatedHeight) / 2
+                x: centeredX,
+                y: centeredY
             });
-            setIsInitialized(false);
+            setIsInitialized(true); // Mark as initialized immediately
         } else {
             // Reset when closing
             setPosition(null);
@@ -259,8 +263,8 @@ const Disclaimer = () => {
 
     // Fine-tune modal position after render to ensure perfect centering (only adjust if significantly different)
     useEffect(() => {
-        if (isExpanded && modalRef.current && position && !isInitialized) {
-            // Use a small delay to ensure DOM is fully rendered and dimensions are accurate
+        if (isExpanded && modalRef.current && position && isInitialized) {
+            // Use requestAnimationFrame to ensure DOM is fully rendered
             const updatePosition = () => {
                 if (modalRef.current && position) {
                     const modalWidth = modalRef.current.offsetWidth;
@@ -277,13 +281,12 @@ const Disclaimer = () => {
                     if (Math.abs(position.x - newX) > 5 || Math.abs(position.y - newY) > 5) {
                         setPosition({ x: newX, y: newY });
                     }
-                    setIsInitialized(true);
                 }
             };
             
-            // Use setTimeout with minimal delay to allow render to complete
-            const timer = setTimeout(updatePosition, 0);
-            return () => clearTimeout(timer);
+            // Use requestAnimationFrame for smooth update
+            const frameId = requestAnimationFrame(updatePosition);
+            return () => cancelAnimationFrame(frameId);
         }
     }, [isExpanded, position, isInitialized]);
 
@@ -372,17 +375,19 @@ const Disclaimer = () => {
                         className={`disclaimer-modal ${isMobile ? 'disclaimer-modal--mobile' : 'disclaimer-modal--desktop'} ${isDragging ? 'disclaimer-modal--dragging' : ''} ${!isInitialized ? 'disclaimer-modal--initial' : ''}`}
                         style={position ? {
                             transform: `translate(${position.x}px, ${position.y}px)`,
-                            transition: isDragging ? 'none' : (isInitialized ? 'transform 0.2s ease-out' : 'transform 0s'),
+                            transition: isDragging ? 'none' : 'transform 0.2s ease-out',
                             position: 'absolute',
                             top: 0,
-                            left: 0
+                            left: 0,
+                            opacity: isInitialized ? 1 : 0
                         } : {
-                            // CSS will center it initially (shouldn't happen, but fallback)
+                            // Hidden until position is set
                             position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            transition: 'transform 0.3s ease-out'
+                            top: 0,
+                            left: 0,
+                            transform: 'translate(0, 0)',
+                            opacity: 0,
+                            transition: 'none'
                         }}
                         onClick={(e) => e.stopPropagation()}
                     >

@@ -51,7 +51,7 @@ const AppWrapper = observer(() => {
     const { is_open } = quick_strategy;
     const { cancel_button_text, ok_button_text, title, message } = dialog_options as { [key: string]: string };
     const { clear } = summary_card;
-    const { DASHBOARD, BOT_BUILDER } = DBOT_TABS;
+    const { DASHBOARD, BOT_BUILDER, TRADER } = DBOT_TABS;
     const init_render = React.useRef(true);
     const { ui } = useStore();
     const { url_hashed_values, is_desktop } = ui;
@@ -254,22 +254,32 @@ const AppWrapper = observer(() => {
                     </Tabs>
                 </div>
             </div>
-            {is_desktop ? (
+            {active_tab !== TRADER && (
                 <>
-                    <div className='main__run-strategy-wrapper'>
-                        <RunStrategy />
-                        <RunPanel />
-                    </div>
+                    {is_desktop ? (
+                        <>
+                            <div className='main__run-strategy-wrapper'>
+                                <RunStrategy />
+                                <RunPanel />
+                            </div>
+                            <ChartModal />
+                            <TradingViewModal />
+                        </>
+                    ) : (
+                        !is_open && (
+                            <>
+                                <RunStrategy />
+                                <RunPanel />
+                            </>
+                        )
+                    )}
+                </>
+            )}
+            {active_tab === TRADER && is_desktop && (
+                <>
                     <ChartModal />
                     <TradingViewModal />
                 </>
-            ) : (
-                !is_open && (
-                    <>
-                        <RunStrategy />
-                        <RunPanel />
-                    </>
-                )
             )}
             <Dialog
                 cancel_button_text={cancel_button_text || localize('Cancel')}
