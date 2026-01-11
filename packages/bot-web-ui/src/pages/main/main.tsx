@@ -58,7 +58,7 @@ const AppWrapper = observer(() => {
     const Dptool = lazy(() => import('../dptool/dptool'));
 
 
-    const hash = ['dashboard', 'bot_builder', 'chart', 'trader', 'botlist', 'finesttool', 'copytrading', 'dptool', 'smartedge', 'signals'];
+    const hash = ['dashboard', 'bot_builder', 'botlist', 'finesttool', 'trader', 'chart', 'copytrading'];
 
     let tab_value: number | string = active_tab;
     const GetHashedValue = (tab: number) => {

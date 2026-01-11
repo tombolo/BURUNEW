@@ -70,52 +70,61 @@ const RecentWorkspace = observer(({ workspace, index }: { workspace: TRecentStra
     };
 
     const randomEmoji = BOT_EMOJIS[index % BOT_EMOJIS.length];
-    const botDescription = BOT_DESCRIPTIONS[index % BOT_DESCRIPTIONS.length];
+    
+    // Generate star rating based on bot name (1-5 stars)
+    const starRating = React.useMemo(() => {
+        const base = String(strategyIdRef.current || strategyNameRef.current);
+        let h = 0;
+        for (let i = 0; i < base.length; i++) h = (h * 31 + base.charCodeAt(i)) >>> 0;
+        return 3 + Math.floor((h % 300) / 100); // Rating between 3-5 stars
+    }, []);
 
     return (
-        <div className="dbot-workspace-card" onClick={handleClick} data-bot-id={workspace.id}>
-            {/* Background elements */}
-            <div className="dbot-workspace-card__particles">
-                {Array.from({ length: 12 }).map((_, i) => (
-                    <span key={i}></span>
-                ))}
-            </div>
-            <div className="dbot-workspace-card__border-glow"></div>
-
+        <div className="dbot-workspace-card" data-bot-id={workspace.id}>
+            {/* Premium ribbon */}
+            <div className="dbot-workspace-card__premium-badge">PREMIUM</div>
+            
             {/* Content */}
-            <div className="dbot-workspace-card__emoji">{randomEmoji}</div>
-            <div className="dbot-workspace-card__content">
-                <div className="dbot-workspace-card__header">
+            <div className="dbot-workspace-card__top">
+                <div className="dbot-workspace-card__emoji">{randomEmoji}</div>
+                <div className="dbot-workspace-card__info">
                     <div className="dbot-workspace-card__name">
                         {strategyNameRef.current}
                     </div>
-                    <button className="dbot-workspace-card__action">
-                        <span>Load</span>
-                        <div className="dbot-workspace-card__arrow">→</div>
-                    </button>
-                </div>
-                <div className="dbot-workspace-card__description">
-                    {botDescription}
-                </div>
-                <div className="dbot-workspace-card__metrics">
-                    <div className="dbot-workspace-card__meter">
-                        <div
-                            className="dbot-workspace-card__meter-fill"
-                            style={{ width: `${perfPercent}%` }}
-                        />
-                        <div className="dbot-workspace-card__meter-shine" />
+                    <div className="dbot-workspace-card__rating">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                            <span
+                                key={i}
+                                className={`dbot-workspace-card__star ${i < starRating ? 'dbot-workspace-card__star--filled' : ''}`}
+                            >
+                                ★
+                            </span>
+                        ))}
+                        <span className="dbot-workspace-card__rating-text">{starRating}.0</span>
                     </div>
-                    <div className="dbot-workspace-card__percent">{perfPercent}%</div>
-                </div>
-                <div className="dbot-workspace-card__preview" aria-hidden>
-                    <div className="dbot-workspace-card__preview-line"></div>
-                    <div className="dbot-workspace-card__preview-line"></div>
-                    <div className="dbot-workspace-card__preview-line"></div>
-                    <div className="dbot-workspace-card__preview-line"></div>
-                    <div className="dbot-workspace-card__preview-line"></div>
+                    <div className="dbot-workspace-card__metrics">
+                        <div className="dbot-workspace-card__meter">
+                            <div
+                                className="dbot-workspace-card__meter-fill"
+                                style={{ width: `${perfPercent}%` }}
+                            />
+                        </div>
+                        <div className="dbot-workspace-card__percent">{perfPercent}%</div>
+                    </div>
                 </div>
             </div>
-            <div className="dbot-workspace-card__shine"></div>
+            
+            {/* Load Button at Bottom */}
+            <button 
+                className="dbot-workspace-card__action" 
+                onClick={(e) => {
+                    e.stopPropagation();
+                    handleClick();
+                }}
+            >
+                <span>Load Bot</span>
+                <div className="dbot-workspace-card__arrow">→</div>
+            </button>
         </div>
     );
 });

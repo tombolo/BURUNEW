@@ -29,8 +29,8 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCard
         'google-drive': localize('Access your saved bots from Google Drive'),
         'bot-builder': localize('Build your bot from scratch with our visual editor'),
         'quick-strategy': localize('Use pre-built strategies to get started quickly'),
-        'free-bots': localize('Explore our collection of free trading bots'),
-        'analysis-tools': localize('Powerful tools for market analysis and insights'),
+        'free-bots': localize('Browse and use free trading bots'),
+        'analysis-tools': localize('Market analysis and trading insights'),
     };
     
     const { dashboard, load_modal, quick_strategy } = useDBotStore();
@@ -161,8 +161,8 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies, children }: TCard
                         >
                             <div className='dashboard-card__icon'>
                                 {React.createElement(iconComponents[action.type as keyof typeof iconComponents], {
-                                    width: is_mobile ? '28' : '36',
-                                    height: is_mobile ? '28' : '36',
+                                    width: is_mobile ? '24' : '28',
+                                    height: is_mobile ? '24' : '28',
                                 })}
                             </div>
                             <div className='dashboard-card__content'>
