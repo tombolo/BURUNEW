@@ -118,36 +118,36 @@
         justify-content: center;
         width: 3.2rem;
         height: 3.2rem;
-        margin-bottom: 0.625rem;
+        margin-bottom: 0.2rem;
         flex-shrink: 0;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         
         @media (min-width: 1024px) {
             width: 3.2rem;
             height: 3.2rem;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.1rem;
         }
 
         @include mobile-or-tablet-screen {
             width: 2.75rem;
             height: 2.75rem;
-            margin-bottom: 0.625rem;
+            margin-bottom: 0.1rem;
         }
 
         @media (max-width: 480px) {
             width: 2.5rem;
             height: 2.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.1rem;
         }
 
         svg {
-            width: 120%;
-            height: 120%;
+            width: 130%;
+            height: 130%;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             
             @media (min-width: 1024px) {
-                width: 130%;
-                height: 130%;
+                width: 140%;
+                height: 140%;
             }
         }
     }
