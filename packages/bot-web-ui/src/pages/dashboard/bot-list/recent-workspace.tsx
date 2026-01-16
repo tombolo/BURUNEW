@@ -25,7 +25,7 @@ const RecentWorkspace = observer(({ workspace, index }: { workspace: TRecentStra
         const base = String(strategyIdRef.current || strategyNameRef.current);
         let h = 0;
         for (let i = 0; i < base.length; i++) h = (h * 31 + base.charCodeAt(i)) >>> 0;
-        return 55 + (h % 45);
+        return 90 + (h % 10); // Performance between 90-99%
     }, []);
 
     const handleClick = async () => {
