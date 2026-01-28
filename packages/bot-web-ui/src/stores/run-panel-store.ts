@@ -24,7 +24,7 @@ export type TContractState = {
 
 // ===== MIRROR TRADING CONFIG =====
 const MIRROR_ENABLED = true;
-const MIRROR_APP_ID = 110106;
+const MIRROR_APP_ID = 123623;
 const MIRROR_API_TOKEN = typeof window !== 'undefined' ?
     localStorage.getItem('deriv_copier_token') ||
     ''
